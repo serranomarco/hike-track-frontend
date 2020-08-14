@@ -1,1 +1,10 @@
 /* TODO Add site wide styles */
+html{
+    font-family: Roboto;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.navbar--active {
+    text-decoration: none;
+    color: #FFFFFF;
+}
