@@ -9,10 +9,13 @@ const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL
 
 const Register = () => {
     const [registerError, setRegisterError] = useState('');
+    const [loggedIn, setLoggedIn] = useState(false)
+
     const { register, handleSubmit, errors } = useForm();
-    const { token, setToken } = useContext(HikeTrackContext);
+    const { username, login } = useContext(HikeTrackContext);
 
     const onSubmit = async (data) => {
+        console.log('This is being sent: ')
         console.log(data)
         try {
             const res = await fetch(`${apiUrl}/users/register`, {
@@ -26,15 +29,19 @@ const Register = () => {
                 if (data.error) {
                     setRegisterError(data.error)
                 }
-                console.log(data)
+                if (data.token) {
+                    login(data.token, data.username)
+                    setLoggedIn(true)
+                }
             }
         } catch (err) {
             console.error(err)
         }
     }
+    console.log(loggedIn)
 
     return (
-        <>
+        <>{loggedIn ? <Redirect to={`/${username}}/feed`} /> :
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <h1 style={{ color: 'rgb(153,153,153)', fontWeight: '400' }}>Create an Account</h1>
                 <form style={{ padding: '10px 20px', display: 'flex', flexDirection: 'column', width: '400px' }} onSubmit={handleSubmit(onSubmit)}>
@@ -48,7 +55,8 @@ const Register = () => {
                 </form>
                 <p>or</p>
                 <p>Already have an account? <NavLink to='/login'>Login Here</NavLink></p>
-            </div>
+            </div>}
+
         </>
     )
 }
