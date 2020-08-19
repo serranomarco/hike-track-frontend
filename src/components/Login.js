@@ -13,7 +13,8 @@ const Login = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const { username, login, needLogin } = useContext(HikeTrackContext);
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data, e) => {
+        e.preventDefault();
         console.log('This is what is sent: ')
         console.log(data)
         try {
@@ -29,8 +30,8 @@ const Login = () => {
                     setLoginError(data.error)
                 }
                 if (data.token) {
-                    login(data.token, data.username);
                     setLoggedIn(true)
+                    login(data.token, data.username, data.id);
                 }
                 console.log('This is what I received: ')
                 console.log(data)

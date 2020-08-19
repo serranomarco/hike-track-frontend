@@ -5,13 +5,16 @@ import Routes from './components/Routes'
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '')
   const [username, setUsername] = useState(localStorage.getItem('username') || '')
+  const [id, setId] = useState(localStorage.getItem('id') || '');
   const [needLogin, setNeedLogin] = useState(!localStorage.getItem('token'));
 
-  const login = (token, username) => {
+  const login = (token, username, id) => {
     localStorage.setItem('token', token);
     localStorage.setItem('username', username);
+    localStorage.setItem('id', id)
     setToken(localStorage.getItem('token'));
     setUsername(localStorage.getItem('username'));
+    setId(localStorage.getItem('id'))
     setNeedLogin(false);
   }
 
@@ -20,6 +23,8 @@ function App() {
     setToken,
     username,
     setUsername,
+    id,
+    setId,
     needLogin,
     setNeedLogin,
     login

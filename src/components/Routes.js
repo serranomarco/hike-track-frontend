@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
 
-import { PrivateRoute } from './ProtectedRoute'
+import HikeTrackContext from '../context/HikeTrackContext'
 import Register from './Register';
 import Login from './Login';
 import Landing from './Landing';
 import Feed from './Feed'
-import HikeTrackContext from '../context/HikeTrackContext'
+import { PrivateRoute } from './routesUtil'
 
 const Routes = () => {
 
