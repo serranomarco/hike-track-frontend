@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { TextField, Button } from '@material-ui/core'
 
 import HikeTrackContext from '../context/HikeTrackContext'
+import BottomNav from './BottomNav';
 
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
@@ -49,10 +50,11 @@ const Login = () => {
                     <form style={{ padding: '10px 20px', display: 'flex', flexDirection: 'column', width: '400px' }} onSubmit={handleSubmit(onSubmit)}>
                         <TextField inputRef={register()} style={{ marginBottom: '10px' }} name='email' label='Email' type='text' />
                         <TextField inputRef={register()} style={{ marginBottom: '10px' }} name='password' label='Password' type='password' />
-                        <Button type='submit' style={{ fontWeight: '400', color: 'white', marginTop: '10px', backgroundColor: 'rgb(153,153,153)' }}>Log In</Button>
+                        <Button type='submit' style={{ fontWeight: '400', color: 'white', marginTop: '10px', backgroundColor: 'rgb(213,152,107)' }}>Log In</Button>
                     </form>
                     <p>or</p>
                     <p>Don't have an account? <NavLink to='/register'>Register Here</NavLink></p>
+                    <BottomNav />
                 </div>}
 
         </>

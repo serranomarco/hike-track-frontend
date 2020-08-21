@@ -4,6 +4,7 @@ import { Redirect, NavLink } from 'react-router-dom';
 import { TextField, Button } from '@material-ui/core'
 
 import HikeTrackContext from '../context/HikeTrackContext';
+import BottomNav from './BottomNav'
 
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL
 
@@ -32,7 +33,7 @@ const Register = () => {
                 }
                 if (data.token) {
                     setLoggedIn(true)
-                    login(data.token, data.username)
+                    login(data.token, data.username, data.id)
                 }
             }
         } catch (err) {
@@ -52,10 +53,11 @@ const Register = () => {
                     <TextField inputRef={register()} style={{ marginBottom: '10px' }} name='email' label='Email' type='text' />
                     <TextField inputRef={register()} style={{ marginBottom: '10px' }} name='password' label='Password' type='password' />
                     <TextField style={{ marginBottom: '10px' }} label='Confirm Password' type='password' />
-                    <Button type='submit' style={{ fontWeight: '400', color: 'white', marginTop: '10px', backgroundColor: 'rgb(153,153,153)' }}>Register</Button>
+                    <Button type='submit' style={{ fontWeight: '400', color: 'white', marginTop: '10px', backgroundColor: 'rgb(213,152,107)' }}>Register</Button>
                 </form>
                 <p>or</p>
                 <p>Already have an account? <NavLink to='/login'>Login Here</NavLink></p>
+                <BottomNav />
             </div>}
 
         </>

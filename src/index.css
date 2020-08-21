@@ -7,3 +7,7 @@ html{
 .navbar--active {
     color: #FFFFFF;
 }
+
+.new-post--hidden{
+    display: none;
+}
