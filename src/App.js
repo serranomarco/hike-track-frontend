@@ -8,6 +8,7 @@ function App() {
   const [id, setId] = useState(localStorage.getItem('id') || '');
   const [needLogin, setNeedLogin] = useState(!localStorage.getItem('token'));
   const [posts, setPosts] = useState([]);
+  const [currentPost, setCurrentPost] = useState({})
 
   const login = (token, username, id) => {
     localStorage.setItem('token', token);
@@ -30,7 +31,9 @@ function App() {
     setNeedLogin,
     login,
     posts,
-    setPosts
+    setPosts,
+    currentPost,
+    setCurrentPost
   };
   return (
     <HikeTrackContext.Provider value={context} >

@@ -7,7 +7,7 @@ import HikeTrackContext from '../context/HikeTrackContext'
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
 const NewPost = () => {
-    const { id } = useContext(HikeTrackContext)
+    const { id, token } = useContext(HikeTrackContext)
     const { register, handleSubmit, errors } = useForm();
 
     const onSubmit = async (data, e) => {
@@ -15,7 +15,10 @@ const NewPost = () => {
         try {
             const res = await fetch(`${apiUrl}/posts/user/${id}`, {
                 method: 'post',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify(data)
             })
         } catch (err) {

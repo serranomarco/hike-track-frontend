@@ -7,6 +7,7 @@ import Post from './Post'
 import FeedNav from './FeedNav'
 import HikeTrackContext from '../context/HikeTrackContext';
 import NewPost from './NewPost';
+import PostEditModal from './PostEditModal';
 
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
@@ -23,11 +24,13 @@ const Feed = () => {
 
     const fetchPosts = async () => {
         try {
-            const res = await fetch(`${apiUrl}/posts/user/${id}`);
+            const res = await fetch(`${apiUrl}/posts/user/${id}`,
+                {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
 
             if (res.ok) {
                 const data = await res.json();
-                console.log(data);
                 setPosts(data);
             }
 
@@ -54,6 +57,7 @@ const Feed = () => {
             </div>
             <FeedNav />
             <BottomNav />
+            <PostEditModal />
         </>
     )
 }
