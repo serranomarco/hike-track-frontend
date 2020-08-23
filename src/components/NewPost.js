@@ -21,7 +21,7 @@ const NewPost = () => {
         } catch (err) {
             console.error(err)
         }
-
+        window.location.reload()
     }
 
     const closeForm = (e) => {
@@ -34,7 +34,7 @@ const NewPost = () => {
             <form style={{ border: '1px solid grey', backgroundColor: 'rgb(153,153,153)', borderRadius: '2px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', width: '500px', padding: '0 20px 20px' }} onSubmit={handleSubmit(onSubmit)} >
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <h1 style={{ fontWeight: '400', color: 'white' }}>New Post</h1>
-                    <button onClick={closeForm} style={{ height: '40px', marginTop: '10px', border: 'none', backgroundColor: 'transparent' }}>
+                    <button type='button' onClick={closeForm} style={{ height: '40px', marginTop: '10px', border: 'none', backgroundColor: 'transparent' }}>
                         <CloseIcon style={{ color: 'white', pointerEvents: 'none' }} />
                     </button>
                 </div>

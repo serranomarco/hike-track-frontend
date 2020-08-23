@@ -43,7 +43,7 @@ const Register = () => {
     console.log(loggedIn)
 
     return (
-        <>{loggedIn ? <Redirect to={`/${username}}/feed`} /> :
+        <>{loggedIn ? <Redirect to={`/${username}/feed`} /> :
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <h1 style={{ color: 'rgb(153,153,153)', fontWeight: '400' }}>Create an Account</h1>
                 <form style={{ padding: '10px 20px', display: 'flex', flexDirection: 'column', width: '400px' }} onSubmit={handleSubmit(onSubmit)}>

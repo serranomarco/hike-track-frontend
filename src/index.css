@@ -11,3 +11,8 @@ html{
 .new-post--hidden{
     display: none;
 }
+
+.comment:focus{
+    height: 40px;
+    outline: none;
+}
