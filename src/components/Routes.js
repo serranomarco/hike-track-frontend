@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import HikeTrackContext from '../context/HikeTrackContext'
 import Register from './Register';
 import Login from './Login';
 import Landing from './Landing';
 import Feed from './Feed'
+import Locations from './Locations'
 import { PrivateRoute } from './routesUtil'
 
 const Routes = () => {
@@ -19,6 +20,7 @@ const Routes = () => {
                 <Route path='/register' component={Register} />
                 <Route path='/login' component={Login} />
                 <PrivateRoute path={`/${username}/feed`} component={Feed} needLogin={needLogin} />
+                <PrivateRoute path='/locations' component={Locations} needLogin={needLogin} />
             </Switch>
         </BrowserRouter>
     )

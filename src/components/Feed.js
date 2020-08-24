@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 
-import { Button, TextField, Modal } from '@material-ui/core';
+import { Button, Modal } from '@material-ui/core';
 
 import BottomNav from './BottomNav'
 import Post from './Post'
@@ -12,7 +12,7 @@ import PostEditModal from './PostEditModal';
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
 const Feed = () => {
-    const { id, token, setPosts, setLikedPosts, open, setOpen, setAnchorEl } = useContext(HikeTrackContext);
+    const { id, token, setPosts, setLikedPosts, open, setOpen, setAnchorEl, currentPostId } = useContext(HikeTrackContext);
 
     const handleClose = () => {
         setOpen(false)
@@ -26,8 +26,24 @@ const Feed = () => {
         }
     }
 
-    const deletePost = () => {
+    const deletePost = async (e) => {
+        try {
+            const res = await fetch(`${apiUrl}/posts/${currentPostId}`, {
+                method: 'delete',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (res.ok) {
+                const data = await res.json();
+                console.log(data)
+            }
 
+        } catch (err) {
+            console.error(err)
+        }
+        window.location.reload()
     }
 
     const fetchPosts = async () => {
