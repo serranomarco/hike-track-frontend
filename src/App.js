@@ -9,6 +9,10 @@ function App() {
   const [needLogin, setNeedLogin] = useState(!localStorage.getItem('token'));
   const [posts, setPosts] = useState([]);
   const [currentPost, setCurrentPost] = useState({})
+  const [currentPostId, setCurrentPostId] = useState('')
+  const [likedPosts, setLikedPosts] = useState([])
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const login = (token, username, id) => {
     localStorage.setItem('token', token);
@@ -33,7 +37,15 @@ function App() {
     posts,
     setPosts,
     currentPost,
-    setCurrentPost
+    setCurrentPost,
+    currentPostId,
+    setCurrentPostId,
+    likedPosts,
+    setLikedPosts,
+    open,
+    setOpen,
+    anchorEl,
+    setAnchorEl
   };
   return (
     <HikeTrackContext.Provider value={context} >

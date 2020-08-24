@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form'
 
-import { IconButton, TextField, Icon } from '@material-ui/core';
+import { IconButton, TextField, Icon, Button, Menu, MenuItem } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import EditIcon from '@material-ui/icons/Edit';
@@ -13,8 +13,22 @@ import HikeTrackContext from '../context/HikeTrackContext';
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
 const Post = () => {
-    const { posts, token, setCurrentPost } = useContext(HikeTrackContext);
+    const { posts, token, setCurrentPost, likedPosts, setOpen, setAnchorEl, anchorEl, setCurrentPostId } = useContext(HikeTrackContext);
     const { register, handleSubmit, errors } = useForm();
+
+
+    const handleOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClick = (e) => {
+        setAnchorEl(e.currentTarget);
+        setCurrentPostId(e.target.parentElement.getAttribute('post-id'));
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    }
 
     const onSubmit = async (data, e) => {
         e.preventDefault()
@@ -66,6 +80,41 @@ const Post = () => {
         modal.classList.remove('edit-post--hidden');
     }
 
+    const likePost = async (e) => {
+        const postId = e.target.parentElement.getAttribute('post-id');
+        console.log(likedPosts.includes(Number.parseInt(postId)))
+        if (!likedPosts.includes(Number.parseInt(postId))) {
+            try {
+                const res = await fetch(`${apiUrl}/posts/${postId}/like`, {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                })
+                if (res.ok) {
+                    const data = await res.json();
+                    console.log(data)
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        } else {
+            try {
+                const res = await fetch(`${apiUrl}/posts/${postId}/like`, {
+                    method: 'delete',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        window.location.reload()
+    }
+
     return (
         posts.map(post => {
             return (
@@ -75,9 +124,20 @@ const Post = () => {
                             <p style={{ fontWeight: '500', marginTop: '10px' }}>{post.username}</p>
                         </div> : ''}
                     <div>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <p style={{ fontWeight: '500', marginRight: '15px' }}>{post.username}</p>
-                            <p style={{ fontSize: '30px', fontWeight: '500', margin: '0px' }}>{post.title}</p>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <p style={{ fontWeight: '500', marginRight: '15px' }}>{post.username}</p>
+                                <p style={{ fontSize: '30px', fontWeight: '500', margin: '0px' }}>{post.title}</p>
+                            </div>
+                            <Button style={{ width: '30px', minWidth: '30px' }} post-id={post.id} onClick={handleClick}>
+                                <MoreVertIcon style={{ pointerEvents: 'none' }} />
+                            </Button>
+                            <Menu anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}>
+                                <MenuItem onClick={handleOpen}>Delete Post</MenuItem>
+                            </Menu>
                         </div>
                         <p style={{ fontSize: '18px', margin: '0px' }}>{post.text}</p>
                     </div>
@@ -87,8 +147,8 @@ const Post = () => {
                             <button post-id={post.id} style={{ marginTop: '20px', marginLeft: '5px', height: '25px', border: 'none', borderRadius: '2px', fontFamily: 'Roboto', backgroundColor: 'rgb(213, 152, 107)', color: 'white' }} onClick={submitForm} type='button'>Post</button>
                         </form>
                         <div style={{ marginTop: '20px' }}>
-                            <IconButton style={{ padding: '0px', marginRight: '10px' }}>
-                                <FavoriteBorderOutlinedIcon />
+                            <IconButton post-id={post.id} onClick={likePost} style={{ padding: '0px', marginRight: '10px' }}>
+                                {likedPosts.includes(Number.parseInt(post.id)) ? <FavoriteIcon style={{ color: 'red', pointerEvents: 'none' }} /> : <FavoriteBorderOutlinedIcon style={{ pointerEvents: 'none' }} />}
                             </IconButton>
                             <IconButton post-id={post.id} onClick={showModal} style={{ padding: '0px' }}>
                                 <EditIcon style={{ pointerEvents: 'none' }} />

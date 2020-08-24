@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Modal } from '@material-ui/core';
 
 import BottomNav from './BottomNav'
 import Post from './Post'
@@ -12,14 +12,22 @@ import PostEditModal from './PostEditModal';
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
 const Feed = () => {
-    const { id, token, setPosts } = useContext(HikeTrackContext);
+    const { id, token, setPosts, setLikedPosts, open, setOpen, setAnchorEl } = useContext(HikeTrackContext);
 
+    const handleClose = () => {
+        setOpen(false)
+        setAnchorEl(null)
+    }
 
     const createNewPostForm = () => {
         const newPostForm = document.querySelector('.new-post')
         if (newPostForm.classList.contains('new-post--hidden')) {
             newPostForm.classList.remove('new-post--hidden')
         }
+    }
+
+    const deletePost = () => {
+
     }
 
     const fetchPosts = async () => {
@@ -31,7 +39,8 @@ const Feed = () => {
 
             if (res.ok) {
                 const data = await res.json();
-                setPosts(data);
+                setPosts(data.posts);
+                setLikedPosts(data.liked_posts);
             }
 
         } catch (err) {
@@ -42,7 +51,7 @@ const Feed = () => {
 
     useEffect(() => {
         fetchPosts();
-    }, [setPosts, token])
+    }, [setPosts, token, setLikedPosts])
 
     return (
         <>
@@ -58,6 +67,17 @@ const Feed = () => {
             <FeedNav />
             <BottomNav />
             <PostEditModal />
+            <Modal className='delete-modal' style={{ border: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center' }} open={open} onClose={handleClose}>
+                <div style={{ backgroundColor: 'rgb(153, 153, 153)', width: '500px', padding: '20px 20px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <p style={{ color: 'white' }}>Are you sure you want to delete this post?</p>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                        <Button onClick={deletePost} style={{ color: 'white', backgroundColor: 'rgb(213, 152, 107)' }}>Yes</Button>
+                        <Button onClick={handleClose} style={{ color: 'white', backgroundColor: 'rgb(213, 152, 107)' }}>No</Button>
+                    </div>
+                </div>
+            </Modal>
         </>
     )
 }
