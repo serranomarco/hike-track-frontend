@@ -118,12 +118,18 @@ const Post = () => {
     return (
         posts.map(post => {
             return (
-                <div key={post.id} style={{ marginTop: '20px', padding: '10px 20px', border: '1px solid rgba(153, 153, 153, 0.5)', borderRadius: '2px', width: '500px' }}>
+                <div key={post.id} style={{ marginTop: '20px', padding: '10px 0', border: '1px solid rgba(153, 153, 153, 0.5)', borderRadius: '2px', width: '500px' }}>
                     {post.photo_url ?
-                        <div>
-                            <p style={{ fontWeight: '500', marginTop: '10px' }}>{post.username}</p>
-                        </div> : ''}
-                    <div>
+                        <>
+                            <div>
+                                <p style={{ paddingLeft: '20px', fontWeight: '500', marginTop: '10px', marginBottom: '20px' }}>{post.username}</p>
+                            </div>
+                            <div>
+                                <img style={{ width: '500px', height: '500px' }} src={post.photo_url} />
+                            </div>
+                        </>
+                        : ''}
+                    <div style={{ padding: '0 20px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <p style={{ fontWeight: '500', marginRight: '15px' }}>{post.username}</p>
@@ -141,7 +147,7 @@ const Post = () => {
                         </div>
                         <p style={{ fontSize: '18px', margin: '0px' }}>{post.text}</p>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ padding: '0 20px 10px', display: 'flex', justifyContent: 'space-between' }}>
                         <form key={post.id} id={post.id} style={{ display: 'flex' }} onSubmit={handleSubmit(onSubmit)}>
                             <textarea rows={1} className='comment' style={{ marginTop: '20px', fontFamily: 'Roboto', fontSize: '15px', borderRadius: '2px', border: '1px solid rgba(153, 153, 153, 0.5)', width: '300px', resize: 'none' }} ref={register()} name={`comment`} placeholder='Leave a comment' type='text' />
                             <button post-id={post.id} style={{ marginTop: '20px', marginLeft: '5px', height: '25px', border: 'none', borderRadius: '2px', fontFamily: 'Roboto', backgroundColor: 'rgb(213, 152, 107)', color: 'white' }} onClick={submitForm} type='button'>Post</button>

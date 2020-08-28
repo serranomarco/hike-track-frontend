@@ -21,13 +21,13 @@ const Landing = () => {
                 alignItems: 'center',
                 justifyContent: 'space-around'
             }}>
+                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', borderRadius: '5px', padding: '10px 10px' }}>
+                    <Login />
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                     <h1 style={{ color: 'white', padding: '0px 10px' }}>Keep track of all your favorite locations</h1>
                     <h1 style={{ color: 'white', padding: '0px 10px' }}>Discover new hikes</h1>
                     <h1 style={{ color: 'white', padding: '0px 10px' }}>Meet new people</h1>
-                </div>
-                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', borderRadius: '5px', padding: '10px 10px' }}>
-                    <Login />
                 </div>
             </div>
             <TopNav />

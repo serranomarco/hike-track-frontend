@@ -10,7 +10,7 @@ const Locations = () => {
     return (
         <div>
             <FeedNav />
-            <div style={{ position: 'fixed', top: '75px', bottom: '115px', right: '0', left: '0' }}>
+            <div style={{ position: 'fixed', top: '75px', bottom: '115px', right: '500px', left: '0' }}>
                 <WrappedMap
                     googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${googleApiKey}`}
                     loadingElement={<div style={{ height: '100%' }} />}
