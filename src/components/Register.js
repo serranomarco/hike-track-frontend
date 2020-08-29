@@ -13,7 +13,7 @@ const Register = () => {
     const [loggedIn, setLoggedIn] = useState(false)
 
     const { register, handleSubmit, errors, watch } = useForm();
-    const { username, login, needLogin } = useContext(HikeTrackContext);
+    const { username, login } = useContext(HikeTrackContext);
 
     const onSubmit = async (data, e) => {
         e.preventDefault();
