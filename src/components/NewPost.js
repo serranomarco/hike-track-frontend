@@ -17,7 +17,6 @@ const NewPost = () => {
         const textField = document.querySelector('textarea[name="text"]');
         console.log(fileField.files)
         console.log(fileField.files[0])
-        formData.append('key', 'value')
         formData.append('image', fileField.files[0]);
         formData.append('title', titleField.value);
         formData.append('text', textField.value);

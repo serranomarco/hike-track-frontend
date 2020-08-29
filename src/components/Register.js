@@ -13,7 +13,7 @@ const Register = () => {
     const [loggedIn, setLoggedIn] = useState(false)
 
     const { register, handleSubmit, errors, watch } = useForm();
-    const { username, login } = useContext(HikeTrackContext);
+    const { username, login, needLogin } = useContext(HikeTrackContext);
 
     const onSubmit = async (data, e) => {
         e.preventDefault();
@@ -40,7 +40,6 @@ const Register = () => {
             console.error(err)
         }
     }
-    console.log(loggedIn)
 
     return (
         <>{loggedIn ? <Redirect to={`/${username}/feed`} /> :
@@ -73,7 +72,8 @@ const Register = () => {
                 <p>or</p>
                 <p>Already have an account? <NavLink to='/login'>Login Here</NavLink></p>
                 <BottomNav />
-            </div>}
+            </div>
+        }
 
         </>
     )
