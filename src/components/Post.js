@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { NavLink } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
 import { IconButton, Button, Menu, MenuItem } from '@material-ui/core';
@@ -6,6 +7,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import EditIcon from '@material-ui/icons/Edit';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 import HikeTrackContext from '../context/HikeTrackContext';
 
@@ -15,6 +17,10 @@ const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 const Post = () => {
     const { posts, token, setCurrentPost, likedPosts, setOpen, setAnchorEl, anchorEl, setCurrentPostId } = useContext(HikeTrackContext);
     const { register, handleSubmit, errors } = useForm();
+
+    const convertLocationToSwordCase = location => {
+        return location.split(' ').map((el) => el.toLowerCase()).join('-')
+    }
 
 
     const handleOpen = () => {
@@ -81,9 +87,28 @@ const Post = () => {
     }
 
     const likePost = async (e) => {
+        e.preventDefault()
         const postId = e.target.parentElement.getAttribute('post-id');
-        console.log(likedPosts.includes(Number.parseInt(postId)))
-        if (!likedPosts.includes(Number.parseInt(postId))) {
+        const likeButton = document.getElementById('favorite')
+        if (likeButton.getAttribute('liked') === 'true') {
+            console.log('in here')
+            likeButton.removeAttribute('style')
+            likeButton.style.pointerEvents = 'none'
+            likeButton.setAttribute('liked', 'false')
+            try {
+                const res = await fetch(`${apiUrl}/posts/${postId}/like`, {
+                    method: 'delete',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+            } catch (err) {
+                console.error(err);
+            }
+        } else {
+            likeButton.style.color = 'red'
+            likeButton.setAttribute('liked', 'true')
             try {
                 const res = await fetch(`${apiUrl}/posts/${postId}/like`, {
                     method: 'post',
@@ -99,27 +124,14 @@ const Post = () => {
             } catch (err) {
                 console.error(err);
             }
-        } else {
-            try {
-                const res = await fetch(`${apiUrl}/posts/${postId}/like`, {
-                    method: 'delete',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-            } catch (err) {
-                console.error(err);
-            }
         }
-        window.location.reload()
     }
 
     return (
         posts.map(post => {
             return (
                 <div key={post.id} style={{ marginTop: '20px', padding: '10px 0', border: '1px solid rgba(153, 153, 153, 0.5)', borderRadius: '2px', width: '500px' }}>
-                    {post.photo_url ?
+                    {post.photo_url &&
                         <>
                             <div>
                                 <p style={{ paddingLeft: '20px', fontWeight: '500', marginTop: '10px', marginBottom: '20px' }}>{post.username}</p>
@@ -128,7 +140,7 @@ const Post = () => {
                                 <img style={{ width: '500px', height: '500px' }} src={post.photo_url} />
                             </div>
                         </>
-                        : ''}
+                    }
                     <div style={{ padding: '0 20px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -145,6 +157,13 @@ const Post = () => {
                                 <MenuItem onClick={handleOpen}>Delete Post</MenuItem>
                             </Menu>
                         </div>
+                        {post.location &&
+                            <>
+                                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+                                    <LocationOnIcon />
+                                    <NavLink style={{ color: 'rgb(213,152,107)', textDecoration: 'none' }} to={`/location/${convertLocationToSwordCase(post.location)}`}>{post.location}</NavLink>
+                                </div>
+                            </>}
                         <p style={{ fontSize: '18px', margin: '0px' }}>{post.text}</p>
                     </div>
                     <div style={{ padding: '0 20px 10px', display: 'flex', justifyContent: 'space-between' }}>
@@ -154,14 +173,14 @@ const Post = () => {
                         </form>
                         <div style={{ marginTop: '20px' }}>
                             <IconButton post-id={post.id} onClick={likePost} style={{ padding: '0px', marginRight: '10px' }}>
-                                {likedPosts.includes(Number.parseInt(post.id)) ? <FavoriteIcon style={{ color: 'red', pointerEvents: 'none' }} /> : <FavoriteBorderOutlinedIcon style={{ pointerEvents: 'none' }} />}
+                                {likedPosts.includes(Number.parseInt(post.id)) ? <FavoriteIcon liked='true' id='favorite' style={{ color: 'red', pointerEvents: 'none' }} /> : <FavoriteIcon liked='false' id='favorite' style={{ pointerEvents: 'none' }} />}
                             </IconButton>
                             <IconButton post-id={post.id} onClick={showModal} style={{ padding: '0px' }}>
                                 <EditIcon style={{ pointerEvents: 'none' }} />
                             </IconButton>
                         </div>
                     </div>
-                </div>
+                </div >
             )
         })
     )

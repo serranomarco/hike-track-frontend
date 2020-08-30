@@ -39,9 +39,9 @@ const LocationForm = () => {
                 <TextField inputRef={register({ required: true })} style={{ marginBottom: '10px' }} name='country' label='Country' type='text' />
                 {errors.country && <Typography style={{ backgroundColor: '#f8d7da', padding: '0 10px', borderRadius: '5px' }}>Please enter a country</Typography>}
                 <TextField multiline rows={2} inputRef={register()} style={{ marginBottom: '10px', }} name='description' label='Description' type='text' />
-                <TextField inputRef={register({ required: true })} style={{ marginBottom: '10px' }} name='latitude' label='Latitude' type='number' />
+                <input ref={register({ required: true })} style={{ marginBottom: '10px', height: '40px', border: 'none', borderBottom: '1px solid grey', fontSize: '16px' }} step='any' placeholder='Longitude' name='latitude' label='Latitude' type='number' />
                 {errors.latitude && <Typography style={{ backgroundColor: '#f8d7da', padding: '0 10px', borderRadius: '5px' }}>Please enter a latitude</Typography>}
-                <TextField inputRef={register({ required: true })} style={{ marginBottom: '10px' }} name='longitude' label='Longitude' type='number' />
+                <input ref={register({ required: true })} style={{ marginBottom: '10px', height: '40px', border: 'none', borderBottom: '1px solid grey', fontSize: '16px' }} step='any' placeholder='Longitude' name='longitude' label='Longitude' type='number' />
                 {errors.longitude && <Typography style={{ backgroundColor: '#f8d7da', padding: '0 10px', borderRadius: '5px' }}>Please enter a longitude</Typography>}
                 <Button type='submit' style={{ fontWeight: '400', color: 'white', marginTop: '10px', backgroundColor: 'rgb(213,152,107)' }}>New Location</Button>
             </form>

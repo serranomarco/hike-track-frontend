@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { useForm } from 'react-hook-form'
-import { Button, Typography } from '@material-ui/core';
+import { Button, Typography, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import HikeTrackContext from '../context/HikeTrackContext'
 
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -9,17 +9,38 @@ const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 const NewPost = () => {
     const { id, token } = useContext(HikeTrackContext)
     const { register, handleSubmit, errors } = useForm();
+    const [locations, setLocations] = useState([]);
+
+    const getLocations = async () => {
+        try {
+            const res = await fetch(`${apiUrl}/locations`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (res.ok) {
+                const data = await res.json();
+                setLocations(data)
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+    useEffect(() => {
+        getLocations()
+    }, [setLocations])
 
     const onSubmit = async (data, e) => {
         const formData = new FormData();
         const fileField = document.querySelector('input[name="image"]');
         const titleField = document.querySelector('input[name="title"]');
         const textField = document.querySelector('textarea[name="text"]');
-        console.log(fileField.files)
-        console.log(fileField.files[0])
+        const locationField = document.querySelector('select[name=location]');
         formData.append('image', fileField.files[0]);
         formData.append('title', titleField.value);
         formData.append('text', textField.value);
+        formData.append('location', locationField.value)
         try {
             const res = await fetch(`${apiUrl}/posts/user/${id}`, {
                 method: 'post',
@@ -51,6 +72,17 @@ const NewPost = () => {
                 <div style={{ marginBottom: '10px', marginTop: '0', display: 'flex', alignItems: 'center' }}>
                     <p style={{ marginRight: '10px' }}>Image (optional):</p>
                     <input type='file' accept='image/jpeg' name='image' />
+                </div>
+                <div>
+                    <label htmlFor='location'>Location: </label>
+                    <select name='location' ref={register()} style={{ marginBottom: '10px', fontFamily: 'Roboto', fontSize: '18px', color: 'inherit', borderRadius: '2px', border: 'none' }}>
+                        <option value=''>None</option>
+                        {locations.map((location) => {
+                            return (
+                                <option key={location.id} value={location.id}>{location.name}</option>
+                            )
+                        })}
+                    </select>
                 </div>
                 <input style={{ marginBottom: '10px', fontFamily: 'Roboto', fontSize: '25px', borderRadius: '2px', border: 'none' }} ref={register({ required: true, maxLength: 255 })} name='title' placeholder='Title' type='text' />
                 {errors.title?.type === 'required' && <Typography style={{ backgroundColor: '#f8d7da', padding: '0 10px', borderRadius: '5px', marginBottom: '10px' }}>Please enter a title</Typography>}
