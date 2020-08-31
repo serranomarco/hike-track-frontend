@@ -76,7 +76,7 @@ const NewPost = () => {
                 <div>
                     <label htmlFor='location'>Location: </label>
                     <select name='location' ref={register()} style={{ marginBottom: '10px', fontFamily: 'Roboto', fontSize: '18px', color: 'inherit', borderRadius: '2px', border: 'none' }}>
-                        <option value=''>None</option>
+                        <option value={null}>None</option>
                         {locations.map((location) => {
                             return (
                                 <option key={location.id} value={location.id}>{location.name}</option>

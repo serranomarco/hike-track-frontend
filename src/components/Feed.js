@@ -12,7 +12,7 @@ import PostEditModal from './PostEditModal';
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
 const Feed = () => {
-    const { id, token, setPosts, setLikedPosts, open, setOpen, setAnchorEl, currentPostId } = useContext(HikeTrackContext);
+    const { id, token, posts, setPosts, setLikedPosts, open, setOpen, setAnchorEl, currentPostId } = useContext(HikeTrackContext);
 
     const handleClose = () => {
         setOpen(false)
@@ -77,7 +77,9 @@ const Feed = () => {
                     <NewPost />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Post />
+                    {posts.map((post) => {
+                        return <Post key={post.id} post={post} />
+                    })}
                 </div>
             </div>
             <FeedNav />

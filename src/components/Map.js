@@ -47,9 +47,11 @@ const Map = () => {
                         setSelected(location)
                     }} >
                         {selected && selected.id === location.id && (
-                            <InfoWindow onCloseClick={() => {
-                                setSelected(null);
-                            }} position={{ lat: selected.latitude, lng: selected.longitude }}>
+                            <InfoWindow
+                                zIndex={-1}
+                                onCloseClick={() => {
+                                    setSelected(null);
+                                }} position={{ lat: selected.latitude, lng: selected.longitude }}>
                                 <div>
                                     <p style={{ fontWeight: '600' }}>{selected.name}</p>
                                     <p>Location: {selected.city}, {selected.state}, {selected.country}</p>
