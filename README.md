@@ -13,6 +13,7 @@
 - Hooks
 - Material UI
 - AWS S3
+- React Google Maps
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
