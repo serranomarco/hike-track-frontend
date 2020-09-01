@@ -4,6 +4,7 @@ import FeedNav from './FeedNav';
 import BottomNav from './BottomNav';
 import Post from './Post';
 import PostEditModal from './PostEditModal'
+import UserProfileComponent from './UserProfileComponent';
 import HikeTrackContext from '../context/HikeTrackContext';
 
 import { Button, Modal } from '@material-ui/core';
@@ -22,7 +23,6 @@ const UserProfile = () => {
             });
             if (res.ok) {
                 const data = await res.json()
-                console.log(data)
                 setUser(data)
             }
         } catch (err) {
@@ -52,7 +52,6 @@ const UserProfile = () => {
             })
             if (res.ok) {
                 const data = await res.json();
-                console.log(data)
             }
 
         } catch (err) {
@@ -70,7 +69,6 @@ const UserProfile = () => {
 
             if (res.ok) {
                 const data = await res.json();
-                console.log(data)
                 setUserPosts(data.posts);
                 setLikedPosts(data.liked_posts);
             }
@@ -88,12 +86,7 @@ const UserProfile = () => {
     return (
         <>
             <div style={{ position: 'relative', top: '75px', bottom: '115px', right: '0', left: '0', marginBottom: '135px' }} >
-                <div>
-                    <img alt='profile' src={user.profile_pic_url} />
-                    <p>{user.username}</p>
-                    <p>{user.first_name} {user.last_name}</p>
-                    <p>{user.bio}</p>
-                </div>
+                <UserProfileComponent user={user} userPosts={userPosts} />
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     {userPosts.map((post) => {
                         return <Post key={post.id} post={post} />
