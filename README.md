@@ -1,7 +1,7 @@
 # HikeTrack
 
 ## Live Site
-https://hike-track-backend.herokuapp.com/
+https://hike-track.herokuapp.com/
 
 ## Setup
 1. Clone project
