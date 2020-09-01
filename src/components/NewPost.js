@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { useForm } from 'react-hook-form'
-import { Button, Typography, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import HikeTrackContext from '../context/HikeTrackContext'
 
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -29,6 +29,7 @@ const NewPost = () => {
     }
     useEffect(() => {
         getLocations()
+        //eslint-disable-next-line
     }, [setLocations])
 
     const onSubmit = async (data, e) => {

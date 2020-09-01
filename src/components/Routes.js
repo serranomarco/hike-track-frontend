@@ -7,6 +7,7 @@ import Login from './Login';
 import Landing from './Landing';
 import Feed from './Feed'
 import Locations from './Locations'
+import UserProfile from './UserProfile'
 import { PrivateRoute } from './routesUtil'
 
 const Routes = () => {
@@ -20,6 +21,7 @@ const Routes = () => {
                 <Route path='/register' component={Register} />
                 <Route path='/login' component={Login} />
                 <PrivateRoute path={`/${username}/feed`} component={Feed} needLogin={needLogin} />
+                <PrivateRoute path={`/${username}/profile`} component={UserProfile} needLogin={needLogin} />
                 <PrivateRoute path='/locations' component={Locations} needLogin={needLogin} />
             </Switch>
         </BrowserRouter>

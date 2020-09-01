@@ -11,7 +11,6 @@ const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 const Login = () => {
     const [loginError, setLoginError] = useState('');
     const { register, handleSubmit, errors } = useForm();
-    const [loggedIn, setLoggedIn] = useState(false);
     const { username, login, needLogin } = useContext(HikeTrackContext);
 
     const onSubmit = async (data, e) => {
@@ -29,7 +28,6 @@ const Login = () => {
                     setLoginError(data.error)
                 }
                 if (data.token) {
-                    setLoggedIn(true)
                     login(data.token, data.username, data.id);
                 }
             }

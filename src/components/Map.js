@@ -37,6 +37,7 @@ const Map = () => {
     }
     useEffect(() => {
         getLocations()
+        // eslint-disable-next-line
     }, [setLocations])
 
     return (

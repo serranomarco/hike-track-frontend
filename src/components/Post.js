@@ -52,47 +52,6 @@ const Post = ({ post }) => {
         modal.classList.remove('edit-post--hidden');
     }
 
-    const likePost = async (e) => {
-        e.preventDefault()
-        const postId = e.target.parentElement.getAttribute('post-id');
-        const likeButton = document.getElementById('favorite')
-        if (likeButton.getAttribute('liked') === 'true') {
-            console.log('in here')
-            likeButton.removeAttribute('style')
-            likeButton.style.pointerEvents = 'none'
-            likeButton.setAttribute('liked', 'false')
-            try {
-                const res = await fetch(`${apiUrl}/posts/${postId}/like`, {
-                    method: 'delete',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-            } catch (err) {
-                console.error(err);
-            }
-        } else {
-            likeButton.style.color = 'red'
-            likeButton.setAttribute('liked', 'true')
-            try {
-                const res = await fetch(`${apiUrl}/posts/${postId}/like`, {
-                    method: 'post',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                })
-                if (res.ok) {
-                    const data = await res.json();
-                    console.log(data)
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        }
-    }
-
     return (
         <div key={post.id} style={{ marginTop: '20px', padding: '10px 0', border: '1px solid rgba(153, 153, 153, 0.5)', borderRadius: '2px', width: '500px' }}>
             {post.photo_url &&
@@ -101,7 +60,7 @@ const Post = ({ post }) => {
                         <p style={{ paddingLeft: '20px', fontWeight: '500', marginTop: '10px', marginBottom: '20px' }}>{post.username}</p>
                     </div>
                     <div>
-                        <img style={{ width: '500px', height: '500px' }} src={post.photo_url} />
+                        <img alt='post' style={{ width: '500px', height: '500px' }} src={post.photo_url} />
                     </div>
                 </>
             }
@@ -132,40 +91,89 @@ const Post = ({ post }) => {
             </div>
             <div style={{ padding: '0 20px 10px', display: 'flex', justifyContent: 'space-between' }}>
                 <form key={post.id} id={post.id} style={{ display: 'flex' }} onSubmit={handleSubmit(async (data, e) => {
-                    e.preventDefault()
-                    console.log(data)
-                    console.log(' in here')
                     const userId = localStorage.getItem('id');
-                    // console.log(data)
+                    console.log(data)
                     try {
-                        // const res = await fetch(`${apiUrl}/posts/${post.id}/user/${userId}/comment`, {
-                        //     method: 'post',
-                        //     headers: {
-                        //         'Content-Type': 'application/json',
-                        //         'Authorization': `Bearer ${token}`
-                        //     },
-                        //     body: JSON.stringify(data)
-                        // });
+                        const res = await fetch(`${apiUrl}/posts/${post.id}/user/${userId}/comment`, {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify(data)
+                        });
 
-                        // if (res.ok) {
-                        //     const data = await res.json();
-                        //     console.log(data)
-                        // }
+                        if (res.ok) {
+                            const data = await res.json();
+                        }
                     } catch (err) {
                         console.error(err)
                     }
+                    window.location.reload()
                 })}>
                     <textarea rows={1} className='comment' style={{ marginTop: '20px', fontFamily: 'Roboto', fontSize: '15px', borderRadius: '2px', border: '1px solid rgba(153, 153, 153, 0.5)', width: '300px', resize: 'none' }} ref={register()} name={`comment`} placeholder='Leave a comment' type='text' />
                     <button type='submit' style={{ marginTop: '20px', marginLeft: '5px', height: '25px', border: 'none', borderRadius: '2px', fontFamily: 'Roboto', backgroundColor: 'rgb(213, 152, 107)', color: 'white' }}>Post</button>
                 </form>
                 <div style={{ marginTop: '20px' }}>
-                    <IconButton post-id={post.id} onClick={likePost} style={{ padding: '0px', marginRight: '10px' }}>
-                        {likedPosts.includes(Number.parseInt(post.id)) ? <FavoriteIcon liked='true' id='favorite' style={{ color: 'red', pointerEvents: 'none' }} /> : <FavoriteIcon liked='false' id='favorite' style={{ pointerEvents: 'none' }} />}
+                    <IconButton onClick={async (e) => {
+                        e.preventDefault()
+                        console.log(post.id)
+                        const likeButton = document.getElementById(`like-${post.id}`)
+                        if (likeButton.getAttribute('liked') === 'true') {
+                            likeButton.removeAttribute('style')
+                            likeButton.style.pointerEvents = 'none'
+                            likeButton.setAttribute('liked', 'false')
+                            try {
+                                const res = await fetch(`${apiUrl}/posts/${post.id}/like`, {
+                                    method: 'delete',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${token}`
+                                    }
+                                })
+                                if (res.ok) {
+                                    const data = await res.json();
+                                    console.log(data)
+                                }
+                            } catch (err) {
+                                console.error(err);
+                            }
+                        } else {
+                            likeButton.style.color = 'red'
+                            likeButton.setAttribute('liked', 'true')
+                            try {
+                                const res = await fetch(`${apiUrl}/posts/${post.id}/like`, {
+                                    method: 'post',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${token}`
+                                    },
+                                })
+                                if (res.ok) {
+                                    const data = await res.json();
+                                    console.log(data)
+                                }
+                            } catch (err) {
+                                console.error(err);
+                            }
+                        }
+                    }} style={{ padding: '0px', marginRight: '10px' }}>
+                        {likedPosts.includes(Number.parseInt(post.id)) ? <FavoriteIcon id={`like-${post.id}`} liked='true' style={{ color: 'red', pointerEvents: 'none' }} /> : <FavoriteIcon id={`like-${post.id}`} liked='false' style={{ pointerEvents: 'none' }} />}
                     </IconButton>
                     <IconButton post-id={post.id} onClick={showModal} style={{ padding: '0px' }}>
                         <EditIcon style={{ pointerEvents: 'none' }} />
                     </IconButton>
                 </div>
+            </div>
+            <div>
+                {post.comments.map((comment) => {
+                    return (
+                        <div key={comment.id} style={{ display: 'flex', marginLeft: '40px', marginTop: '10px', marginBottom: '10px' }}>
+                            <p style={{ margin: '0px', fontWeight: '500', marginRight: '5px', color: 'black', fontSize: '13px' }}>{comment.username}:</p>
+                            <p style={{ margin: '0px', fontSize: '13px' }}>{comment.comment}</p>
+                        </div>
+                    )
+                })}
             </div>
         </div >
     )
