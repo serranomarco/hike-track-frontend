@@ -86,7 +86,7 @@ const UserProfile = () => {
     return (
         <>
             <div style={{ position: 'relative', top: '75px', bottom: '115px', right: '0', left: '0', marginBottom: '135px' }} >
-                <UserProfileComponent user={user} userPosts={userPosts} />
+                <UserProfileComponent props={{ 'userPosts': userPosts, 'user': user }} />
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     {userPosts.map((post) => {
                         return <Post key={post.id} post={post} />
