@@ -1,5 +1,8 @@
 # HikeTrack
 
+## Live Site
+https://hike-track.herokuapp.com/
+
 ## Setup
 1. Clone project
 2. Create .env files in the root directory (example.env included)
