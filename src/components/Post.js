@@ -15,7 +15,7 @@ import HikeTrackContext from '../context/HikeTrackContext';
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
 const Post = ({ post }) => {
-    const { posts, token, setCurrentPost, likedPosts, setOpen, setAnchorEl, anchorEl, setCurrentPostId } = useContext(HikeTrackContext);
+    const { username, posts, token, setCurrentPost, likedPosts, setOpen, setAnchorEl, anchorEl, setCurrentPostId } = useContext(HikeTrackContext);
     const { register, handleSubmit, errors } = useForm();
 
     const convertLocationToSwordCase = location => {
@@ -70,9 +70,9 @@ const Post = ({ post }) => {
                         <p style={{ fontWeight: '500', marginRight: '15px' }}>{post.username}</p>
                         <p style={{ fontSize: '30px', fontWeight: '500', margin: '0px' }}>{post.title}</p>
                     </div>
-                    <Button style={{ width: '30px', minWidth: '30px' }} post-id={post.id} onClick={handleClick}>
+                    {post.username === username && <Button style={{ width: '30px', minWidth: '30px' }} post-id={post.id} onClick={handleClick}>
                         <MoreVertIcon style={{ pointerEvents: 'none' }} />
-                    </Button>
+                    </Button>}
                     <Menu anchorEl={anchorEl}
                         keepMounted
                         open={Boolean(anchorEl)}
@@ -160,9 +160,9 @@ const Post = ({ post }) => {
                     }} style={{ padding: '0px', marginRight: '10px' }}>
                         {likedPosts.includes(Number.parseInt(post.id)) ? <FavoriteIcon id={`like-${post.id}`} liked='true' style={{ color: 'red', pointerEvents: 'none' }} /> : <FavoriteIcon id={`like-${post.id}`} liked='false' style={{ pointerEvents: 'none' }} />}
                     </IconButton>
-                    <IconButton post-id={post.id} onClick={showModal} style={{ padding: '0px' }}>
+                    {post.username === username && <IconButton post-id={post.id} onClick={showModal} style={{ padding: '0px' }}>
                         <EditIcon style={{ pointerEvents: 'none' }} />
-                    </IconButton>
+                    </IconButton>}
                 </div>
             </div>
             <div>

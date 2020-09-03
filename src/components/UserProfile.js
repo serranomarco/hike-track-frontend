@@ -83,6 +83,7 @@ const UserProfile = () => {
         fetchPosts();
         // eslint-disable-next-line
     }, [setUserPosts, token, setLikedPosts])
+
     return (
         <>
             <div style={{ position: 'relative', top: '75px', bottom: '115px', right: '0', left: '0', marginBottom: '135px' }} >
