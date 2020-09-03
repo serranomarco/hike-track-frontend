@@ -13,7 +13,7 @@ const Register = () => {
     const [loggedIn, setLoggedIn] = useState(false)
 
     const { register, handleSubmit, errors, watch } = useForm();
-    const { username, login } = useContext(HikeTrackContext);
+    const { username, login, needLogin } = useContext(HikeTrackContext);
 
     const onSubmit = async (data, e) => {
         e.preventDefault();
@@ -42,7 +42,7 @@ const Register = () => {
     }
 
     return (
-        <>{loggedIn ? <Redirect to={`/${username}/feed`} /> :
+        <>{!needLogin ? <Redirect to={`/${username}/feed`} /> :
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <h1 style={{ color: 'rgb(153,153,153)', fontWeight: '400' }}>Create an Account</h1>
                 <form style={{ padding: '10px 20px', display: 'flex', flexDirection: 'column', width: '400px' }} onSubmit={handleSubmit(onSubmit)}>

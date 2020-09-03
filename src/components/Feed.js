@@ -35,10 +35,6 @@ const Feed = () => {
                     'Authorization': `Bearer ${token}`
                 }
             })
-            if (res.ok) {
-                const data = await res.json();
-                console.log(data)
-            }
 
         } catch (err) {
             console.error(err)
@@ -55,7 +51,6 @@ const Feed = () => {
 
             if (res.ok) {
                 const data = await res.json();
-                console.log(data)
                 setPosts(data.posts);
                 setLikedPosts(data.liked_posts);
             }
