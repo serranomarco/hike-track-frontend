@@ -12,7 +12,6 @@ const ProfileComponent = ({ props: { user, userPosts } }) => {
     const [follow, setFollow] = useState(false);
 
     const fetchFollow = async () => {
-        console.log('in here')
         try {
             const res = await fetch(`${apiUrl}/users/${user.id}/follow`, {
                 headers: {
@@ -22,7 +21,6 @@ const ProfileComponent = ({ props: { user, userPosts } }) => {
             });
             if (res.ok) {
                 const data = await res.json();
-                console.log(data)
                 if (data.message) {
                     setFollow(true)
                 }
@@ -90,7 +88,7 @@ const ProfileComponent = ({ props: { user, userPosts } }) => {
                         <div style={{ display: 'flex' }}>
                             <p style={{ fontSize: '15px', marginRight: '10px' }}>{userPosts.length} posts</p>
                             <p style={{ fontSize: '15px', marginRight: '10px' }}>{user.followers?.length} followers</p>
-                            <p style={{ fontSize: '15px' }}>0 following</p>
+                            <p style={{ fontSize: '15px' }}>{user.following?.length} following</p>
                         </div>
 
                     </div>

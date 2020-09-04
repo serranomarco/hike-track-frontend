@@ -18,13 +18,12 @@ const UserProfileComponent = ({ props: { user, userPosts } }) => {
                             <NavLink style={{ textDecoration: 'none', cursor: 'pointer' }} to={`/${username}/edit`}>
                                 <Button style={{ color: 'white', marginTop: '20px', marginRight: '20px', backgroundColor: 'rgb(213, 152, 107)' }}>Edit Profile</Button>
                             </NavLink>
-
                         </div>
                         <p style={{ fontWeight: '600', marginBottom: '0px' }}>{user.first_name} {user.last_name}</p>
                         <div style={{ display: 'flex' }}>
                             <p style={{ fontSize: '15px', marginRight: '10px' }}>{userPosts.length} posts</p>
-                            <p style={{ fontSize: '15px', marginRight: '10px' }}>0 followers</p>
-                            <p style={{ fontSize: '15px' }}>0 following</p>
+                            <p style={{ fontSize: '15px', marginRight: '10px' }}>{user.followers?.length} followers</p>
+                            <p style={{ fontSize: '15px' }}>{user.following?.length} following</p>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,7 @@ import PostEditModal from './PostEditModal';
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
 const Feed = () => {
-    const { id, token, posts, setPosts, setLikedPosts, open, setOpen, setAnchorEl, currentPostId } = useContext(HikeTrackContext);
+    const { token, posts, setPosts, setLikedPosts, open, setOpen, setAnchorEl, currentPostId } = useContext(HikeTrackContext);
 
     const handleClose = () => {
         setOpen(false)
