@@ -5,14 +5,41 @@ import BottomNav from './BottomNav';
 import Post from './Post';
 import ProfileComponent from './ProfileComponent'
 import HikeTrackContext from '../context/HikeTrackContext';
+import { useParams } from 'react-router-dom';
 
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
-const Profile = ({ user }) => {
-
+const Profile = () => {
+    const { username } = useParams();
+    const [user, setUser] = useState({})
     const [userPosts, setUserPosts] = useState([])
     const [likedPosts, setLikedPosts] = useState([]);
     const { token } = useContext(HikeTrackContext)
+
+    const fetchUser = async () => {
+        try {
+            const res = await fetch(`${apiUrl}/users/${username}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                console.log(data)
+                setUser(data);
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    useEffect(() => {
+        fetchUser()
+        // eslint-disable-next-line
+    }, setUser)
+
+
 
     const fetchPosts = async () => {
         try {
@@ -36,7 +63,7 @@ const Profile = ({ user }) => {
     useEffect(() => {
         fetchPosts();
         // eslint-disable-next-line
-    }, [setUserPosts, token, setLikedPosts])
+    }, [user])
     return (
         <>
             <div style={{ position: 'relative', top: '75px', bottom: '115px', right: '0', left: '0', marginBottom: '135px' }} >

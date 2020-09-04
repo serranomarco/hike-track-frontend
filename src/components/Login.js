@@ -47,6 +47,27 @@ const Login = () => {
                         <TextField inputRef={register({ required: true })} style={{ marginBottom: '10px' }} name='password' label='Password' type='password' />
                         {errors.password && <Typography style={{ backgroundColor: '#f8d7da', padding: '0 10px', borderRadius: '5px' }} > Please enter a password</Typography>}
                         <Button type='submit' style={{ fontWeight: '400', color: 'white', marginTop: '10px', backgroundColor: 'rgb(213,152,107)' }}>Log In</Button>
+                        <Button type='button' onClick={async () => {
+                            try {
+                                const res = await fetch(`${apiUrl}/users/login`, {
+                                    method: 'post',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        'email': 'demo@gmail.com',
+                                        'password': 'password'
+                                    })
+                                })
+
+                                if (res.ok) {
+                                    const data = await res.json();
+                                    if (data.token) {
+                                        login(data.token, data.username, data.id);
+                                    }
+                                }
+                            } catch (err) {
+                                console.error(err)
+                            }
+                        }} style={{ fontWeight: '400', color: 'white', marginTop: '10px', backgroundColor: 'rgb(213,152,107)' }}>Demo User</Button>
                     </form>
                     <p>or</p>
                     <p>Don't have an account? <NavLink to='/register'>Register Here</NavLink></p>

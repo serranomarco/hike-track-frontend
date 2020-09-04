@@ -56,18 +56,19 @@ const Post = ({ post }) => {
         <div key={post.id} style={{ marginTop: '20px', padding: '10px 0', border: '1px solid rgba(153, 153, 153, 0.5)', borderRadius: '2px', width: '500px' }}>
             {post.photo_url &&
                 <>
-                    <div>
-                        <p style={{ paddingLeft: '20px', fontWeight: '500', marginTop: '10px', marginBottom: '20px' }}>{post.username}</p>
+                    <div style={{ marginTop: '10px', marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
+                        <img style={{ marginLeft: '10px', borderRadius: '50%', width: '50px', height: '50px' }} src={post.profile_pic} />
+                        <NavLink to={`/${post.username}/profile`} style={{ color: 'rgb(213,152,107)', cursor: 'pointer', paddingLeft: '20px', fontWeight: '500', textDecoration: 'none' }}>{post.username}</NavLink>
                     </div>
                     <div>
                         <img alt='post' style={{ width: '500px', height: '500px' }} src={post.photo_url} />
                     </div>
                 </>
             }
-            <div style={{ padding: '0 20px' }}>
+            <div style={{ padding: '0 20px', marginTop: '10px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <p style={{ fontWeight: '500', marginRight: '15px' }}>{post.username}</p>
+                        <NavLink to={`/${post.username}/profile`} style={{ color: 'rgb(213,152,107)', cursor: 'pointer', fontWeight: '500', textDecoration: 'none', marginRight: '10px' }}>{post.username}</NavLink>
                         <p style={{ fontSize: '30px', fontWeight: '500', margin: '0px' }}>{post.title}</p>
                     </div>
                     {post.username === username && <Button style={{ width: '30px', minWidth: '30px' }} post-id={post.id} onClick={handleClick}>
