@@ -19,10 +19,10 @@ const BottomNav = () => {
                 <div style={{ marginRight: '30px', textAlign: 'center' }}>
                     <p style={{ color: 'white' }}>Marco Serrano</p>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <IconButton href='https://github.com/serranomarco' aria-label='github'>
+                        <IconButton href='https://github.com/serranomarco' target='_blank' aria-label='github'>
                             <GitHubIcon style={{ color: 'white' }} />
                         </IconButton>
-                        <IconButton href='https://www.linkedin.com/in/marco-serrano-3916731b2' aria-label='linkedin'>
+                        <IconButton href='https://www.linkedin.com/in/marco-serrano-3916731b2' target='_blank' aria-label='linkedin'>
                             <LinkedInIcon style={{ color: 'white' }} />
                         </IconButton>
                     </div>
