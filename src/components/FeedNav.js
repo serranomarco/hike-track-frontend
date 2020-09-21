@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { NavLink, Redirect, Route } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { Input, Button, Menu, MenuItem } from '@material-ui/core'
@@ -38,7 +38,6 @@ const FeedNav = () => {
             })
             if (res.ok) {
                 const data = await res.json();
-                console.log(data)
                 setSearch(data)
             }
         } catch (err) {
@@ -57,7 +56,7 @@ const FeedNav = () => {
             <img alt='background' style={{ height: '100%' }} src='https://hike-track-app.s3-us-west-2.amazonaws.com/logo_size.jpg' />
             <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleSubmit(searchUsers)}>
                 <SearchIcon />
-                <Input id='search' style={{ position: 'relative' }} name='search' inputRef={register()} type='text' placeholder='Search for other hikers' style={{ marginLeft: '10px', backgroundColor: 'white', borderRadius: '2.5px', width: '400px' }} />
+                <Input id='search' style={{ position: 'relative', marginLeft: '10px', backgroundColor: 'white', borderRadius: '2.5px', width: '400px' }} name='search' inputRef={register()} type='text' placeholder='Search for other hikers' />
                 <Button onClick={handleClick} style={{ marginLeft: '10px', fontWeight: '400', fontSize: '10px', color: 'white', backgroundColor: 'rgb(213,152,107)', padding: '7px' }} type='submit'>Search</Button>
             </form>
             <Menu

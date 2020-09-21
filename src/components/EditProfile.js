@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { NavLink, Redirect } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
-import { TextField, Button, Typography } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 
 import FeedNav from './FeedNav';
 import BottomNav from './BottomNav';
@@ -27,7 +27,6 @@ const EditProfile = () => {
 
             if (res.ok) {
                 const data = await res.json();
-                console.log(data);
             }
         } catch (err) {
             console.error(err);

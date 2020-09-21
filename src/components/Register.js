@@ -17,8 +17,6 @@ const Register = () => {
 
     const onSubmit = async (data, e) => {
         e.preventDefault();
-        console.log('This is being sent: ')
-        console.log(data)
         try {
             const res = await fetch(`${apiUrl}/users/register`, {
                 method: 'post',

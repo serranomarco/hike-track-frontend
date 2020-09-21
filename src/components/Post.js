@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 
 import { IconButton, Button, Menu, MenuItem } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import EditIcon from '@material-ui/icons/Edit';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -15,7 +14,7 @@ import HikeTrackContext from '../context/HikeTrackContext';
 const apiUrl = process.env.REACT_APP_API_SERVER_BASE_URL;
 
 const Post = ({ post }) => {
-    const { username, posts, token, setCurrentPost, likedPosts, setOpen, setAnchorEl, anchorEl, setCurrentPostId } = useContext(HikeTrackContext);
+    const { username, token, setCurrentPost, likedPosts, setOpen, setAnchorEl, anchorEl, setCurrentPostId } = useContext(HikeTrackContext);
     const { register, handleSubmit, errors } = useForm();
 
     const convertLocationToSwordCase = location => {
@@ -57,7 +56,7 @@ const Post = ({ post }) => {
             {post.photo_url &&
                 <>
                     <div style={{ marginTop: '10px', marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
-                        <img style={{ marginLeft: '10px', borderRadius: '50%', width: '50px', height: '50px' }} src={post.profile_pic} />
+                        <img alt='profile' style={{ marginLeft: '10px', borderRadius: '50%', width: '50px', height: '50px' }} src={post.profile_pic} />
                         <NavLink to={`/${post.username}/profile`} style={{ color: 'rgb(213,152,107)', cursor: 'pointer', paddingLeft: '20px', fontWeight: '500', textDecoration: 'none' }}>{post.username}</NavLink>
                     </div>
                     <div>
@@ -85,7 +84,7 @@ const Post = ({ post }) => {
                     <>
                         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
                             <LocationOnIcon />
-                            <NavLink style={{ color: 'rgb(213,152,107)', textDecoration: 'none' }} to={`/location/${convertLocationToSwordCase(post.location)}`}>{post.location}</NavLink>
+                            <NavLink style={{ color: 'rgb(213,152,107)', textDecoration: 'none', pointerEvents: 'none' }} to={`/location/${convertLocationToSwordCase(post.location)}`}>{post.location}</NavLink>
                         </div>
                     </>}
                 <p style={{ fontSize: '18px', margin: '0px' }}>{post.text}</p>
@@ -93,7 +92,6 @@ const Post = ({ post }) => {
             <div style={{ padding: '0 20px 10px', display: 'flex', justifyContent: 'space-between' }}>
                 <form key={post.id} id={post.id} style={{ display: 'flex' }} onSubmit={handleSubmit(async (data, e) => {
                     const userId = localStorage.getItem('id');
-                    console.log(data)
                     try {
                         const res = await fetch(`${apiUrl}/posts/${post.id}/user/${userId}/comment`, {
                             method: 'post',
@@ -104,9 +102,6 @@ const Post = ({ post }) => {
                             body: JSON.stringify(data)
                         });
 
-                        if (res.ok) {
-                            const data = await res.json();
-                        }
                     } catch (err) {
                         console.error(err)
                     }
@@ -118,7 +113,6 @@ const Post = ({ post }) => {
                 <div style={{ marginTop: '20px' }}>
                     <IconButton onClick={async (e) => {
                         e.preventDefault()
-                        console.log(post.id)
                         const likeButton = document.getElementById(`like-${post.id}`)
                         if (likeButton.getAttribute('liked') === 'true') {
                             likeButton.removeAttribute('style')
@@ -132,10 +126,6 @@ const Post = ({ post }) => {
                                         'Authorization': `Bearer ${token}`
                                     }
                                 })
-                                if (res.ok) {
-                                    const data = await res.json();
-                                    console.log(data)
-                                }
                             } catch (err) {
                                 console.error(err);
                             }
@@ -150,10 +140,6 @@ const Post = ({ post }) => {
                                         'Authorization': `Bearer ${token}`
                                     },
                                 })
-                                if (res.ok) {
-                                    const data = await res.json();
-                                    console.log(data)
-                                }
                             } catch (err) {
                                 console.error(err);
                             }

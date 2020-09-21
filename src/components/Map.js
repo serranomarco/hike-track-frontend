@@ -9,15 +9,6 @@ const Map = () => {
     const { token } = useContext(HikeTrackContext);
     const [locations, setLocations] = useState([]);
     const [selected, setSelected] = useState(null);
-    const [lat, setLat] = useState(45.516022);
-    const [lng, setLng] = useState(-122.681427);
-
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            setLat(position.coords.latitude)
-            setLng(position.coords.longitude)
-        })
-    }, [setLat, setLng])
 
     const getLocations = async () => {
         try {
@@ -41,7 +32,7 @@ const Map = () => {
     }, [setLocations])
 
     return (
-        <GoogleMap defaultZoom={10} center={{ lat: lat, lng: lng }} >
+        <GoogleMap defaultZoom={10} defaultCenter={{ lat: 45.516022, lng: -122.681427 }} >
             {locations.map((location) => {
                 return (
                     <Marker key={location.id} position={{ lat: location.latitude, lng: location.longitude }} onClick={() => {
